@@ -3,7 +3,11 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 )
+
+
+// Modify to the structure https://stackoverflow.com/questions/12655464/can-functions-be-passed-as-parameters-in-go
 
 func main()  {
 
@@ -31,4 +35,9 @@ func InitSshConnection(mount_dir, server string) {
 	}
 	fmt.Printf("You will be connected to the [ %s ]\n", server)
 	fmt.Printf("Directory has been mounted to %s/%s\n", mount_dir, server)
+
+	cmd := exec.Command("df", "-h")
+	cmd.Stdin = os.Stdin
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
 }
