@@ -9,7 +9,7 @@ func main()  {
 
 	mount_dir := "~/.mount"
 	remote_path := "/"
-	server := os.Args[1:]
+	server := os.Args[1]
 
 	fmt.Println(mount_dir, server, remote_path)
 
@@ -25,6 +25,10 @@ func PrintUsage() {
 }
 
 func InitSshConnection(mount_dir, server string) {
+	if len(server) == 0 {
+		fmt.Println("Server string is empty.")
+		os.Exit(1)
+	}
 	fmt.Printf("You will be connected to the [ %s ]\n", server)
 	fmt.Printf("Directory has been mounted to %s/%s\n", mount_dir, server)
 }
