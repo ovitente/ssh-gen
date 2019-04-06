@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 )
@@ -19,7 +20,7 @@ func main()  {
 
 //	Check to zero vars: mount_dir server and conpath
 // Give server argument from commandline cli
-	InitSshConnection(mount_dir, server)
+	InitSshConnection(mount_dir, server, remote_path)
 }
 
 func PrintUsage() {
@@ -28,16 +29,19 @@ func PrintUsage() {
 
 }
 
-func InitSshConnection(mount_dir, server string) {
+func InitSshConnection(mount_dir, server, remote_path string) {
 	if len(server) == 0 {
 		fmt.Println("Server string is empty.")
 		os.Exit(1)
 	}
-	fmt.Printf("You will be connected to the [ %s ]\n", server)
-	fmt.Printf("Directory has been mounted to %s/%s\n", mount_dir, server)
+	//fmt.Printf("You will be connected to the [ %s ]\n", server)
+	//fmt.Printf("Directory has been mounted to %s/%s\n", mount_dir, server)
 
-	cmd := exec.Command("df", "-h")
-	cmd.Stdin = os.Stdin
-	cmd.Stderr = os.Stderr
+	cmd := exec.Command("sshfs", server + ":" + remote_path, os.Getenv("HOME") + "/.mount/" + server)
 	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err := cmd.Run()
+	if err != nil {
+		log.Fatalf("cmd.Run() failed with %s\n", err)
+	}
 }
