@@ -31,14 +31,6 @@ func InitSshConnection(mount_dir, server, remote_path string) {
 		os.Exit(1)
 	}
 
-	//cmd := exec.Command("umount", os.Getenv("HOME") + "/.mount/" + server)
-	//cmd.Stdout = os.Stdout
-	//cmd.Stderr = os.Stderr
-	//err := cmd.Run()
-	//if err != nil {
-	//	log.Fatalf("cmd.Run() failed with %s\n", err)
-	//}
-
 	// Creating new dir
 	os.Mkdir(os.Getenv("HOME") + "/.mount/" + server, os.ModePerm)
 
