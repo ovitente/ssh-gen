@@ -6,15 +6,22 @@ I needed a way to use mounted sshfs resources for [ranger](https://github.com/ra
 
 ##### Requirements
 
-- Installed golang to build source code
-- Installed sshfs tool
+- golang
+- sshfs tool
 
 ##### Instalation
 
-`go bouild -o sshmount`
+```
+git clone https://gitlab.com/handy-tools/sshmount.git
+go build -o sshmount
+```
 
 ##### Usage
 
 For correct work you need to have almost one server record in `~/.ssh/config` 
 
-Then execute `./sshmount <ssh server>` and by default it will create `~/.mount` directory and mount sshfs to it.
+Then execute 
+
+`./sshmount <ssh server>` 
+
+and by default it creates `~/.mount` directory and mounts sshfs to it.
