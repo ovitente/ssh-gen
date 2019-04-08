@@ -22,6 +22,17 @@ For correct work you need to have almost one server record in `~/.ssh/config`
 
 Then execute 
 
-`./sshmount <ssh server>` 
+```bash
+./sshmount <ssh server>
+```
 
-and by default it creates `~/.mount` directory and mounts sshfs to it.
+and by default it creates `~/.mount` directory and mounts sshfs volume to it.
+
+**!** You can put the binary to `~/.bin` and set `$PATH` env variable with
+
+```bash
+echo "export PATH=$PATH:$HOME/.bin" >> ~/.bashrc
+```
+or to `~/.bash_profile`
+
+if you have mac.
