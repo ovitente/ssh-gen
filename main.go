@@ -34,11 +34,22 @@ func InitSshConnection(mount_dir, server, remote_path string) {
 	// Creating new dir
 	os.Mkdir(os.Getenv("HOME") + "/.mount/" + server, os.ModePerm)
 
-	//Mounting sshfs resource
-	cmd := exec.Command("sshfs", server + ":" + remote_path, os.Getenv("HOME") + "/.mount/" + server)
+	// Unmounting volume if exist.
+	cmd := exec.Command("fusermount", "-u", os.Getenv("HOME") + "/.mount/" + server)
+	//cmd := exec.Command("umount", os.Getenv("HOME") + "/.mount/" + server)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	err := cmd.Run()
+	if err != nil {
+		log.Fatalf("cmd.Run() failed with %s\n", err)
+	}
+
+
+	//Mounting sshfs resource
+	cmd = exec.Command("sshfs", server + ":" + remote_path, os.Getenv("HOME") + "/.mount/" + server)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err = cmd.Run()
 	if err != nil {
 		log.Fatalf("cmd.Run() failed with %s\n", err)
 	}
