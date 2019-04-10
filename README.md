@@ -36,3 +36,11 @@ echo "export PATH=$PATH:$HOME/.bin" >> ~/.bashrc
 or to `~/.bash_profile`
 
 if you have mac.
+
+---
+
+##### Todo
+
+- [ ] Add make file for building
+- [ ] Add autocompletion file check
+- [ ] Add clean support of OSX

@@ -14,6 +14,9 @@ func main()  {
 
 	mount_dir := "~/.mount"
 	remote_path := "/"
+	if len(os.Args) == 1 {
+		os.Exit(1)
+	}
 	server := os.Args[1]
 
 	InitSshConnection(mount_dir, server, remote_path)
