@@ -7,14 +7,14 @@ import (
 	"os/exec"
 )
 
-
 // Modify to the structure https://stackoverflow.com/questions/12655464/can-functions-be-passed-as-parameters-in-go
 
-func main()  {
+func main() {
 
 	mount_dir := "~/.mount"
 	remote_path := "/"
 	if len(os.Args) == 1 {
+		fmt.Println("No arguments provided. Exit.")
 		os.Exit(1)
 	}
 	server := os.Args[1]
@@ -24,7 +24,7 @@ func main()  {
 
 func PrintUsage() {
 	fmt.Println("Usage : sshmount <servername>")
-//	Put panic with msg
+	//	Put panic with msg
 
 }
 
@@ -35,10 +35,10 @@ func InitSshConnection(mount_dir, server, remote_path string) {
 	}
 
 	// Creating new dir
-	os.Mkdir(os.Getenv("HOME") + "/.mount/" + server, os.ModePerm)
+	os.Mkdir(os.Getenv("HOME")+"/.mount/"+server, os.ModePerm)
 
 	// Unmounting volume if exist.
-	cmd := exec.Command("fusermount", "-u", os.Getenv("HOME") + "/.mount/" + server)
+	cmd := exec.Command("fusermount", "-u", os.Getenv("HOME")+"/.mount/"+server)
 	//cmd := exec.Command("umount", os.Getenv("HOME") + "/.mount/" + server)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -47,9 +47,8 @@ func InitSshConnection(mount_dir, server, remote_path string) {
 		log.Fatalf("cmd.Run() failed with %s\n", err)
 	}
 
-
 	//Mounting sshfs resource
-	cmd = exec.Command("sshfs", server + ":" + remote_path, os.Getenv("HOME") + "/.mount/" + server)
+	cmd = exec.Command("sshfs", server+":"+remote_path, os.Getenv("HOME")+"/.mount/"+server)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	err = cmd.Run()
@@ -59,4 +58,5 @@ func InitSshConnection(mount_dir, server, remote_path string) {
 
 	// Show mount path
 	fmt.Printf("Resource [ %s ] was mounted to %s/.mount/%s\n", server, os.Getenv("HOME"), server)
+
 }
