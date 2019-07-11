@@ -69,7 +69,61 @@ func saveToken(path string, token *oauth2.Token) {
 	json.NewEncoder(f).Encode(token)
 }
 
+func writeToConfig(
+	hostAlias string,
+	hostName string,
+	userName string,
+	portNumber string,
+	identityFile string,
+//additionOpts sshConfigOpts,
+) {
+
+	type sshConfigOpts struct {
+		optName  string
+		optValue string
+	}
+
+	type sshConfigBlock struct {
+		hostAlias    string
+		hostName     string
+		userName     string
+		portNumber   string
+		identityFile string
+		additionOpts sshConfigOpts
+	}
+
+	// Filling options structure with values
+	confOpt := sshConfigOpts{
+		"IdentitiesOnly",
+		"yes",
+	}
+
+	// Filling variables in structure for single block of ssh config
+	//confElement := sshConfigBlock{
+	//	"Radas",
+	//	"radas.gitlab.com",
+	//	"bob",
+	//	"223",
+	//	"~/.ssh/work",
+	//	confOpt,
+	//}
+
+	// Sample printing structure values to the console
+	fmt.Printf(
+		"Host %s\n Hostname %s\n User %s\n Port %s\n IdentityFile %s\n %s %s\n\n",
+		hostAlias,
+		hostName,
+		userName,
+		portNumber,
+		identityFile,
+		confOpt.optName,
+		confOpt.optValue,
+	)
+
+}
+
 func main() {
+
 	b, err := ioutil.ReadFile("credentials.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
@@ -112,6 +166,8 @@ func main() {
 	for _, v := range resp.Values {
 
 		fmt.Fprintln(f, v[3], v[5], v[6])
+
+		writeToConfig("v[3]", "v[5]", "det", "v[6]", "~/.ssh/work")
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -119,14 +175,12 @@ func main() {
 
 	}
 
-	//d := []string{"Welcome to the world of Go1.", "Go is a compiled language.", "It is easy to learn Go."}
-
 	err = f.Close()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println("Config file written successfully.")
+	fmt.Printf("\nConfig file written successfully.\n")
 
-	configFiller()
+	// TODO: setup function to accept variables from main.
 }
