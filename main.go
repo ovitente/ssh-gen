@@ -128,4 +128,5 @@ func main() {
 	}
 	fmt.Println("Config file written successfully.")
 
+	configFiller()
 }
