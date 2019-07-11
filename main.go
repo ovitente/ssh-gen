@@ -162,17 +162,17 @@ func main() {
 		f.Close()
 		return
 	}
-
 	for _, v := range resp.Values {
 
-		fmt.Fprintln(f, v[3], v[5], v[6])
-
-		writeToConfig("v[3]", "v[5]", "det", "v[6]", "~/.ssh/work")
+		fmt.Fprintln(f, v[3], v[5], v[6]) // Это надо перенести в функцию записи в файл
+		hostAlias := v[3].(string)
+		hostName := v[5].(string)
+		portNumber := v[6].(string)
+		writeToConfig(hostAlias, hostName, "det", portNumber, "~/.ssh/work")
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-
 	}
 
 	err = f.Close()
