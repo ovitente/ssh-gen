@@ -1,0 +1,6 @@
+.idea
+*.json
+token*
+*.log
+.vagrant
+*DS_Store*
