@@ -101,9 +101,31 @@ func main() {
 		return
 	}
 
-		fmt.Println("Server, IP Address:")
+	// Creating file and filling it
+	f, err := os.Create("config")
+	if err != nil {
+		fmt.Println(err)
+		f.Close()
+		return
+	}
+
 	for _, v := range resp.Values {
 
-		fmt.Printf("%s %s %s\n", v[3], v[5], v[6])
+		fmt.Fprintln(f, v[3], v[5], v[6])
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
 	}
+
+	//d := []string{"Welcome to the world of Go1.", "Go is a compiled language.", "It is easy to learn Go."}
+
+	err = f.Close()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("Config file written successfully.")
+
 }
