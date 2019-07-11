@@ -101,8 +101,7 @@ func main() {
 		return
 	}
 
-	fmt.Println(resp.Values)
-	fmt.Println("Server, IP Address:")
+		fmt.Println("Server, IP Address:")
 	for _, v := range resp.Values {
 
 		fmt.Printf("%s %s %s\n", v[3], v[5], v[6])
