@@ -90,7 +90,7 @@ func main() {
 	// Prints the names and majors of students in a sample spreadsheet:
 	// https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
 	spreadsheetId := "1pWf496p36IXX_MagZiObkJFwZmwLPDWNQq7OT0E2Ato"
-	readRange := "Instances!E2:H"
+	readRange := "Instances!B2:H"
 	resp, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
@@ -105,6 +105,6 @@ func main() {
 	fmt.Println("Server, IP Address:")
 	for _, v := range resp.Values {
 
-		fmt.Printf("%s %s %s\n", v[0], v[2], v[3])
+		fmt.Printf("%s %s %s\n", v[3], v[5], v[6])
 	}
 }
