@@ -174,7 +174,5 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("\nConfig file written successfully.\n")
-
 	// TODO: setup function to accept variables from main.
 }
