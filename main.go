@@ -14,6 +14,20 @@ import (
 	"google.golang.org/api/sheets/v4"
 )
 
+type sshConfigOpts struct {
+	optName  string
+	optValue string
+}
+
+type sshConfigBlock struct {
+	hostAlias    string
+	hostName     string
+	userName     string
+	portNumber   string
+	identityFile string
+	additionOpts sshConfigOpts
+}
+
 // Retrieve a token, saves the token, then returns the generated client.
 func getClient(config *oauth2.Config) *http.Client {
 	// The file token.json stores the user's access and refresh tokens, and is
@@ -75,37 +89,13 @@ func writeToConfig(
 	userName string,
 	portNumber string,
 	identityFile string,
-//additionOpts sshConfigOpts,
+	additionOpts sshConfigOpts,
 ) {
 
-	type sshConfigOpts struct {
-		optName  string
-		optValue string
-	}
-
-	type sshConfigBlock struct {
-		hostAlias    string
-		hostName     string
-		userName     string
-		portNumber   string
-		identityFile string
-		additionOpts sshConfigOpts
-	}
-
 	// Filling options structure with values
-	confOpt := sshConfigOpts{
-		"IdentitiesOnly",
-		"yes",
-	}
-
-	// Filling variables in structure for single block of ssh config
-	//confElement := sshConfigBlock{
-	//	"Radas",
-	//	"radas.gitlab.com",
-	//	"bob",
-	//	"223",
-	//	"~/.ssh/work",
-	//	confOpt,
+	//confOpt := sshConfigOpts{
+	//	"IdentitiesOnly",
+	//	"yes",
 	//}
 
 	// Sample printing structure values to the console
@@ -116,8 +106,8 @@ func writeToConfig(
 		userName,
 		portNumber,
 		identityFile,
-		confOpt.optName,
-		confOpt.optValue,
+		additionOpts.optName,
+		additionOpts.optValue,
 	)
 
 }
@@ -163,16 +153,20 @@ func main() {
 		return
 	}
 	for _, v := range resp.Values {
-
-		fmt.Fprintln(f, v[3], v[5], v[6]) // Это надо перенести в функцию записи в файл
-		hostAlias := v[3].(string)
-		hostName := v[5].(string)
-		portNumber := v[6].(string)
-		writeToConfig(hostAlias, hostName, "det", portNumber, "~/.ssh/work")
-		if err != nil {
-			fmt.Println(err)
+		//fmt.Fprintln(f, v[3], v[5], v[6]) // Это надо перенести в функцию записи в файл
+		hostAlias, ok := v[3].(string)
+		if !ok {
 			return
 		}
+		hostName, ok := v[5].(string)
+		if !ok {
+			return
+		}
+		portNumber, ok := v[6].(string)
+		if !ok {
+			return
+		}
+		writeToConfig(hostAlias, hostName, "det", portNumber, "~/.ssh/work", sshConfigOpts{optName: "IdentitiesOnly", optValue: "yes"})
 	}
 
 	err = f.Close()
