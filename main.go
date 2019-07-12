@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"os"
 
+	"gitlab.inn4science.com/deployments/ssh-gen/lib/ssh/conf"
+
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -17,15 +19,6 @@ import (
 type sshConfigOpts struct {
 	optName  string
 	optValue string
-}
-
-type sshConfigBlock struct {
-	hostAlias    string
-	hostName     string
-	userName     string
-	portNumber   string
-	identityFile string
-	additionOpts sshConfigOpts
 }
 
 // Retrieve a token, saves the token, then returns the generated client.
@@ -122,7 +115,7 @@ func main() {
 	// If modifying these scopes, delete your previously saved token.json.
 	config, err := google.ConfigFromJSON(b, "https://www.googleapis.com/auth/spreadsheets.readonly")
 	if err != nil {
-		log.Fatalf("Unable to parse client secret file to config: %v", err)
+		log.Fatalf("Unable to parse client secret file to cfg: %v", err)
 	}
 	client := getClient(config)
 
@@ -145,36 +138,12 @@ func main() {
 		return
 	}
 
-	// Creating file and filling it
-	f, err := os.Create("config")
-	if err != nil {
-		fmt.Println(err)
-		f.Close()
-		return
+	var blocks = make([]conf.Block, len(resp.Values))
+	for i, block := range resp.Values {
+		if err = blocks[i].SetBlock(block, conf.AdditionalOptions{}); err != nil {
+			log.Fatal(err)
+		}
 	}
-	for _, v := range resp.Values {
-		//fmt.Fprintln(f, v[3], v[5], v[6]) // Это надо перенести в функцию записи в файл
-		hostAlias, ok := v[3].(string)
-		if !ok {
-			return
-		}
-		hostName, ok := v[5].(string)
-		if !ok {
-			return
-		}
-		portNumber, ok := v[6].(string)
-		if !ok {
-			return
-		}
-		writeToConfig(hostAlias, hostName, "det", portNumber, "~/.ssh/work", sshConfigOpts{optName: "IdentitiesOnly", optValue: "yes"})
-	}
+	fmt.Println(blocks[20].HostAlias)
 
-	err = f.Close()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Printf("\nConfig file written successfully.\n")
-
-	// TODO: setup function to accept variables from main.
 }
