@@ -139,11 +139,11 @@ func main() {
 	}
 
 	var blocks = make([]conf.Block, len(resp.Values))
-	for i, block := range resp.Values {
-		if err = blocks[i].SetBlock(block, conf.AdditionalOptions{}); err != nil {
+
+	for i, value := range resp.Values {
+		if err = blocks[i].SetBlock(value, []string{}); err != nil {
 			log.Fatal(err)
 		}
 	}
-	fmt.Println(blocks[20].HostAlias)
-
+	fmt.Println(fmt.Sprintf("%#v\n%s", blocks[20].AdditionalOptions, "asd"))
 }
