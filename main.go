@@ -152,6 +152,11 @@ func main() {
 		f.Close()
 		return
 	}
+
+	fmt.Printf("Enter ssh username: ")
+
+	sshuser := os.Args[1:]
+
 	for _, v := range resp.Values {
 		//fmt.Fprintln(f, v[3], v[5], v[6]) // Это надо перенести в функцию записи в файл
 		hostAlias, ok := v[3].(string)
@@ -166,7 +171,7 @@ func main() {
 		if !ok {
 			return
 		}
-		writeToConfig(hostAlias, hostName, "det", portNumber, "~/.ssh/work", sshConfigOpts{optName: "IdentitiesOnly", optValue: "yes"})
+		writeToConfig(hostAlias, hostName, sshuser[0], portNumber, "~/.ssh/work", sshConfigOpts{optName: "IdentitiesOnly", optValue: "yes"})
 	}
 
 	err = f.Close()
