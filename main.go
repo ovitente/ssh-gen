@@ -153,8 +153,6 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Enter ssh username: ")
-
 	sshuser := os.Args[1:]
 
 	for _, v := range resp.Values {
