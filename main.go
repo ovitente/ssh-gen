@@ -146,12 +146,12 @@ func main() {
 	}
 
 	// Creating file and filling it
-	f, err := os.Create("config")
-	if err != nil {
-		fmt.Println(err)
-		f.Close()
-		return
-	}
+	//	f, err := os.Create("config")
+	//	if err != nil {
+	//		fmt.Println(err)
+	//		f.Close()
+	//		return
+	//	}
 
 	sshuser := os.Args[1:]
 
@@ -172,10 +172,10 @@ func main() {
 		writeToConfig(hostAlias, hostName, sshuser[0], portNumber, "~/.ssh/work", sshConfigOpts{optName: "IdentitiesOnly", optValue: "yes"})
 	}
 
-	err = f.Close()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	//	err = f.Close()
+	//	if err != nil {
+	//		fmt.Println(err)
+	//		return
+	//	}
 	// TODO: setup function to accept variables from main.
 }
