@@ -11,7 +11,9 @@
 
 1. Склонить репу
 2. Выполнить команды  
-    `sops -d credentials.json.enc > credentials.json`  
-    `go run main.go > ~/.ssh/work.config`
+    ```bash
+    sops -d credentials.json.enc > credentials.json
+    go run main.go <USERNAME> > ~/.ssh/config.d/work
+    ```
 3. Убедиться что в `~/.ssh/config` есть запись `Include ~/.ssh/work.config`
 

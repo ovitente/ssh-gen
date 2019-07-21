@@ -100,7 +100,7 @@ func writeToConfig(
 
 	// Sample printing structure values to the console
 	fmt.Printf(
-		"Host %s\n Hostname %s\n User %s\n Port %s\n IdentityFile %s\n %s %s\n\n",
+		"Host %s\n  Hostname %s\n  User %s\n  Port %s\n  IdentityFile %s\n %s %s\n\n",
 		hostAlias,
 		hostName,
 		userName,
@@ -110,6 +110,19 @@ func writeToConfig(
 		additionOpts.optValue,
 	)
 
+	// Creating file and filling it
+	//	f, err := os.Create("config")
+	//	if err != nil {
+	//		fmt.Println(err)
+	//		f.Close()
+	//		return
+	//	}
+
+	//	err = f.Close()
+	//	if err != nil {
+	//		fmt.Println(err)
+	//		return
+	//	}
 }
 
 func main() {
@@ -145,13 +158,8 @@ func main() {
 		return
 	}
 
-	// Creating file and filling it
-	f, err := os.Create("config")
-	if err != nil {
-		fmt.Println(err)
-		f.Close()
-		return
-	}
+	sshuser := os.Args[1:]
+
 	for _, v := range resp.Values {
 		//fmt.Fprintln(f, v[3], v[5], v[6]) // Это надо перенести в функцию записи в файл
 		hostAlias, ok := v[3].(string)
@@ -166,13 +174,7 @@ func main() {
 		if !ok {
 			return
 		}
-		writeToConfig(hostAlias, hostName, "det", portNumber, "~/.ssh/work", sshConfigOpts{optName: "IdentitiesOnly", optValue: "yes"})
+		writeToConfig(hostAlias, hostName, sshuser[0], portNumber, "~/.ssh/work", sshConfigOpts{optName: " IdentitiesOnly", optValue: "yes"})
 	}
 
-	err = f.Close()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	// TODO: setup function to accept variables from main.
 }

@@ -4,5 +4,5 @@ token*
 *.log
 .vagrant
 *DS_Store*
-sshgen2
-sshgen
+ssh-gen
+Dockerfile
